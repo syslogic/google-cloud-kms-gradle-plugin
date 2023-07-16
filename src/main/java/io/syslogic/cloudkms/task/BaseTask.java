@@ -17,23 +17,38 @@ import java.io.InputStreamReader;
  */
 abstract public class BaseTask extends DefaultTask {
 
-    /** Task Input `ciphertextFile`. */
+    /**
+     * Task Input `ciphertextFile`.
+     * @return the path to the cipher-text file.
+     */
     @Input
     abstract public Property<String> getCiphertextFile();
 
-    /** Task Input `plaintextFile`. */
+    /**
+     * Task Input `plaintextFile`.
+     * @return the path to the plain-text file.
+     */
     @Input
     abstract public Property<String> getPlaintextFile();
 
-    /** Task Input `kmsLocation`. */
+    /**
+     * Task Input `kmsLocation`.
+     * @return the location of the key-ring.
+     */
     @Input
     abstract public Property<String> getKmsLocation();
 
-    /** Task Input `kmsKeyring`. */
+    /**
+     * Task Input `kmsKeyring`.
+     * @return the name of the key-ring.
+     */
     @Input
     abstract public Property<String> getKmsKeyring();
 
-    /** Task Input `kmsKey`. */
+    /**
+     * Task Input `kmsKey`.
+     * @return the name of the key.
+     */
     @Input
     abstract public Property<String> getKmsKey();
 

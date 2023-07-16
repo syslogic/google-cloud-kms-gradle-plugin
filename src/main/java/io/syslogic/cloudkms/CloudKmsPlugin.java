@@ -28,7 +28,7 @@ class CloudKmsPlugin implements Plugin<Project> {
 
     // private @Nullable List<String> plaintextFiles = null;
     // private @Nullable List<String> ciphertextFiles = null;
-    
+
     @Override
     public void apply(@NotNull Project project) {
 
