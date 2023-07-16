@@ -23,6 +23,11 @@ public interface CloudKmsExtension {
      */
     List<String> getPlaintextFiles();
 
+    /**
+     * Define the key-path for Cloud KMS.
+     * <code>cloudKms {kmsKeyPath = "projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default"}</code>
+     * @return the fully qualified key-path for Cloud KMS.
+     */
     String getKmsKeyPath();
 
     /**
