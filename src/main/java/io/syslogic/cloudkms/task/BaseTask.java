@@ -84,7 +84,11 @@ abstract public class BaseTask extends DefaultTask {
         return stdOut.toString();
     }
 
-    /** It executes the gcloud CLI command in PowerShell or Bash. */
+    /**
+     * It executes the gcloud CLI command in PowerShell or Bash.
+     * @param command the sub-command to execute.
+     * @return the process input-stream.
+     */
     @NotNull
     protected String execute(String command) {
         String cmd;
@@ -112,7 +116,6 @@ abstract public class BaseTask extends DefaultTask {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         return stdOutput.toString();
     }
 }
