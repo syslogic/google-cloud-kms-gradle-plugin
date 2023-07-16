@@ -6,12 +6,14 @@ on:
     paths-ignore:
       - '**/README.md'
       - '**/.gitignore'
+      - 'jitpack.yml'
       - '.run/**'
   pull_request:
     branches: [ master ]
     paths-ignore:
       - '**/README.md'
       - '**/.gitignore'
+      - 'jitpack.yml'
       - '.run/**'
 
 jobs:
