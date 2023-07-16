@@ -19,22 +19,38 @@ git clone https://github.com/syslogic/google-cloud-kms-gradle-plugin.git ./build
 
 The plugin depends on the common Google Cloud CLI `gcloud` command.
 
-The plugin can be set up in the `buildscript` block of the root project's `build.gradle`:
+A) The plugin can either be set up in the `buildscript` block of the root project's `build.gradle`:
 ````groovy
 buildscript {
     repositories {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.5'
+        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.0'
     }
 }
 ````
 
-Then they can be applied in the module's `build.gradle`:
+B) Or the repository has to be defined in the root project's `settings.gradle`:
+````groovy
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
+    }
+}
+````
+
+Then it can be loaded in the `plugins` block of the root project's `build.gradle`:
 ````groovy
 plugins {
-    id 'com.android.application'
+    id 'io.syslogic.cloudkms.cloud-kms-plugin' version "1.0.0" apply false
+}
+````
+
+C) Finally, it has to be applied in the module's `build.gradle`:
+````groovy
+plugins {
     id 'io.syslogic.cloudkms'
 }
 ````
