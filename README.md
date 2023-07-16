@@ -23,12 +23,9 @@ The plugin can be set up in the `buildscript` block of the root project's `build
 ````groovy
 buildscript {
     repositories {
-        google()
-        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
         classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.5'
     }
 }
