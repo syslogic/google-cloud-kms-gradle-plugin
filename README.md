@@ -56,22 +56,24 @@ The `CloudKmsExtension` can be configured with the following properties:
 
 ### Example
 
+Properties `ciphertextFiles` and `plaintextFiles` must match; they are being used for both directions.
+
 ````groovy
 /** Google Cloud KMS */
 cloudKms {
     ciphertextFiles = [
-            getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
-            getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc',
-            getRootDir().absolutePath + File.separator + 'credentials/keystore.properties.enc',
-            getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json.enc',
-            getRootDir().absolutePath + File.separator + 'credentials/google-services.json.enc'
+            /* 0 */ getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
+            /* 1 */ getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc',
+            /* 2 */ getRootDir().absolutePath + File.separator + 'credentials/keystore.properties.enc',
+            /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json.enc',
+            /* 4 */ getRootDir().absolutePath + File.separator + 'credentials/google-services.json.enc'
     ]
     plaintextFiles = [
-            System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
-            System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore",
-            getRootDir().absolutePath + File.separator + 'keystore.properties',
-            getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
-            getProjectDir().absolutePath + File.separator + 'google-services.json'
+            /* 0 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
+            /* 1 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore",
+            /* 2 */ getRootDir().absolutePath + File.separator + 'keystore.properties',
+            /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
+            /* 4 */ getProjectDir().absolutePath + File.separator + 'google-services.json'
     ]
     kmsLocation = 'global'
     kmsKeystore = 'android-gradle'
@@ -84,10 +86,12 @@ cloudKms {
 ERROR: (gcloud.kms.encrypt) NOT_FOUND: CryptoKey projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default not found.``
 ````
 
-It may help to switch the account ID or the project ID.
+It may help to switch the account ID and/or the project ID.
 ````
 gcloud auth login
 gcloud config set project PROJECT_ID
+gcloud kms keyrings list --location=global
+gcloud kms keys list --keyring=projects/PROJECT_ID/locations/global/keyRings/android-gradle
 ````
 
 ### Support
