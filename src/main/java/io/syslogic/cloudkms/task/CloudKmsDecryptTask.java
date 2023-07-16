@@ -16,6 +16,7 @@ abstract public class CloudKmsDecryptTask extends BaseTask {
 
     /**
      * The default {@link TaskAction}.
+     * `ciphertextFiles` are the input for this task.
      * @throws IOException when the size of plaintextFile cannot be determined.
      */
     @TaskAction
@@ -28,20 +29,23 @@ abstract public class CloudKmsDecryptTask extends BaseTask {
             File ciphertextFile = new File(ciphertextFiles.get(i));
             File plaintextFile = new File(plaintextFiles.get(i));
             if (ciphertextFile.exists() && ciphertextFile.canRead()) {
-                this.stdOut("ciphertextFile found: " + ciphertextFile.getAbsolutePath());
+                this.stdOut("> cipher-text found: " + ciphertextFile.getAbsolutePath());
+                if (Files.size(ciphertextFile.toPath()) == 0) {
+                    this.stdErr("> cipher-text exists, but is empty: " + ciphertextFile.getAbsolutePath());
+                    this.stdErr("> there's no input; exiting.");
+                    return;
+                }
 
                 if (plaintextFile.exists() && plaintextFile.canWrite()) {
-                    this.stdOut("plaintextFile found: " + plaintextFile.getAbsolutePath());
-                    if (Files.size(plaintextFile.toPath()) == 0) {
-                        this.stdOut("plaintextFile empty: " + plaintextFile.getAbsolutePath());
-                    } else {
-                        this.stdErr("> plaintextFile not empty: " + plaintextFile.getAbsolutePath());
-                        this.stdErr("> won't overwrite; exiting by default.");
+                    if (Files.size(plaintextFile.toPath()) > 0) {
+                        this.stdErr("> plain-text exists and is not empty: " + plaintextFile.getAbsolutePath());
+                        this.stdErr("> won't overwrite; exiting.");
                         return; // only overwrite empty files.
                     }
                 }
             } else {
-                this.stdErr("> ciphertextFile not found: " + ciphertextFile.getAbsolutePath());
+                this.stdErr("> cipher-text not found: " + ciphertextFile.getAbsolutePath());
+                this.stdErr("> there's no input; exiting.");
                 return;
             }
         }
@@ -54,7 +58,7 @@ abstract public class CloudKmsDecryptTask extends BaseTask {
             cmd += " --location=" + getKmsLocation().get();
             cmd += " --keyring=" + getKmsKeyring().get();
             cmd += " --key=" + getKmsKey().get();
-            result.append(this.execute(cmd));
+            result.append(this.execute(cmd)).append("\n");
         }
         this.stdOut(result.toString());
     }

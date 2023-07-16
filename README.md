@@ -29,7 +29,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
-        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.3'
+        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.4'
     }
 }
 ````
@@ -59,12 +59,12 @@ The `CloudKmsExtension` can be configured with the following properties:
 /** Google Cloud KMS */
 cloudKms {
     ciphertextFiles = [
-        'credentials/debug.keystore.enc',
-        'credentials/release.keystore.enc'
+            getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
+            getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc'
     ]
     plaintextFiles = [
-        '~/.android/debug.keystore',
-        '~/.android/release.keystore'
+            System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
+            System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore"
     ]
     kmsLocation = 'global'
     kmsKeystore = 'android-gradle'

@@ -16,6 +16,7 @@ abstract public class CloudKmsEncryptTask extends BaseTask {
 
     /**
      * The default {@link TaskAction}.
+     * `plaintextFiles` are the input for this task.
      * @throws IOException when the size of ciphertextFile cannot be determined.
      */
     @TaskAction
@@ -27,21 +28,26 @@ abstract public class CloudKmsEncryptTask extends BaseTask {
         for (int i=0; i < plaintextFiles.size(); i++) {
             File plaintextFile = new File(plaintextFiles.get(i));
             File ciphertextFile = new File(ciphertextFiles.get(i));
+
             if (plaintextFile.exists() && plaintextFile.canRead()) {
-                this.stdOut("plaintextFile found: " + plaintextFile.getAbsolutePath());
+
+                this.stdOut("> plain-text found: " + plaintextFile.getAbsolutePath());
+                if (Files.size(plaintextFile.toPath()) == 0) {
+                    this.stdErr("> plain-text exists, but is empty: " + plaintextFile.getAbsolutePath());
+                    this.stdErr("> there's no input; exiting.");
+                    return;
+                }
 
                 if (ciphertextFile.exists() && ciphertextFile.canWrite()) {
-                    this.stdOut("ciphertextFile found: " + ciphertextFile.getAbsolutePath());
-                    if (Files.size(ciphertextFile.toPath()) == 0) {
-                        this.stdOut("ciphertextFile empty: " + ciphertextFile.getAbsolutePath());
-                    } else {
-                        this.stdErr("> ciphertextFile not empty: " + ciphertextFile.getAbsolutePath());
-                        this.stdErr("> won't overwrite; exiting by default.");
+                    if (Files.size(ciphertextFile.toPath()) > 0) {
+                        this.stdErr("> cipher-text exists and is not empty: " + ciphertextFile.getAbsolutePath());
+                        this.stdErr("> won't overwrite; exiting.");
                         return; // only overwrite empty files.
                     }
                 }
             } else {
-                this.stdErr("> plaintextFile not found: " + plaintextFile.getAbsolutePath());
+                this.stdErr("> plain-text not found: " + plaintextFile.getAbsolutePath());
+                this.stdErr("> there's no input; exiting.");
                 return;
             }
         }
@@ -54,7 +60,7 @@ abstract public class CloudKmsEncryptTask extends BaseTask {
             cmd += " --location=" + getKmsLocation().get();
             cmd += " --keyring=" + getKmsKeyring().get();
             cmd += " --key=" + getKmsKey().get();
-            result.append(this.execute(cmd));
+            result.append(this.execute(cmd)).append("\n");
         }
         this.stdOut(result.toString());
       }
