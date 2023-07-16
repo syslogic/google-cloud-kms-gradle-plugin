@@ -44,7 +44,7 @@ pluginManagement {
 Then it can be loaded in the `plugins` block of the root project's `build.gradle`:
 ````groovy
 plugins {
-    id 'io.syslogic.cloudkms.cloud-kms-plugin' version "1.0.0" apply false
+    id 'io.syslogic.cloudkms' version "1.0.0" apply false
 }
 ````
 
