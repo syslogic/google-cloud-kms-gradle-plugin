@@ -1,5 +1,7 @@
 package io.syslogic.cloudkms;
 
+import java.util.List;
+
 /**
  * Public API for Gradle build scripts.
  *
@@ -9,17 +11,17 @@ public interface CloudKmsExtension {
 
     /**
      * Define the path to the cipher-text file.
-     * <code>cloudKms {ciphertextFile = "credentials/*.keystore.enc"}</code>
+     * <code>cloudKms {ciphertextFiles = ["credentials/*.keystore.enc"]}</code>
      * @return path to the encoded keystore file.
      */
-    String getCiphertextFile();
+    List<String> getCiphertextFiles();
 
     /**
      * Define the path to the plain-text file.
-     * <code>cloudKms {plaintextFile = "~/.android/*.keystore"}</code>
+     * <code>cloudKms {plaintextFiles = ["~/.android/*.keystore"]}</code>
      * @return path to the plain-text keystore file.
      */
-    String getPlaintextFile();
+    List<String> getPlaintextFiles();
 
     /**
      * Define the key-ring location for Cloud KMS.

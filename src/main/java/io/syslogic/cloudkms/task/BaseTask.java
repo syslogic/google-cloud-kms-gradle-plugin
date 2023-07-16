@@ -1,6 +1,7 @@
 package io.syslogic.cloudkms.task;
 
 import org.gradle.api.DefaultTask;
+import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.internal.os.OperatingSystem;
@@ -18,36 +19,36 @@ import java.io.InputStreamReader;
 abstract public class BaseTask extends DefaultTask {
 
     /**
-     * Task Input `ciphertextFile`.
-     * @return the path to the cipher-text file.
+     * Task Input `ciphertextFiles`.
+     * @return paths to the cipher-text files.
      */
     @Input
-    abstract public Property<String> getCiphertextFile();
+    abstract public ListProperty<String> getCiphertextFiles();
 
     /**
-     * Task Input `plaintextFile`.
-     * @return the path to the plain-text file.
+     * Task Input `plaintextFiles`.
+     * @return paths to the plain-text files.
      */
     @Input
-    abstract public Property<String> getPlaintextFile();
+    abstract public ListProperty<String> getPlaintextFiles();
 
     /**
      * Task Input `kmsLocation`.
-     * @return the location of the key-ring.
+     * @return location of the key-ring.
      */
     @Input
     abstract public Property<String> getKmsLocation();
 
     /**
      * Task Input `kmsKeyring`.
-     * @return the name of the key-ring.
+     * @return name of the key-ring.
      */
     @Input
     abstract public Property<String> getKmsKeyring();
 
     /**
      * Task Input `kmsKey`.
-     * @return the name of the key.
+     * @return name of the key.
      */
     @Input
     abstract public Property<String> getKmsKey();

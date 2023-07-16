@@ -5,6 +5,7 @@ import org.gradle.api.tasks.TaskAction;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 /**
  * Abstract Decrypt {@link BaseTask}
@@ -19,35 +20,42 @@ abstract public class CloudKmsDecryptTask extends BaseTask {
      */
     @TaskAction
     public void run() throws IOException {
-        File ciphertextFile = new File(getCiphertextFile().get());
-        if (ciphertextFile.exists() && ciphertextFile.canRead()) {
-            this.stdOut("ciphertextFile found: " + ciphertextFile.getAbsolutePath());
-        } else {
-            this.stdErr("> ciphertextFile not found: " + ciphertextFile.getAbsolutePath());
-            return;
-        }
 
-        File plaintextFile = new File(getPlaintextFile().get());
-        if (plaintextFile.exists() && plaintextFile.canWrite()) {
-            this.stdOut("plaintextFile found: " + plaintextFile.getAbsolutePath());
-            if ( Files.size(plaintextFile.toPath()) == 0) {
-                this.stdOut("plaintextFile empty: " + plaintextFile.getAbsolutePath());
+        List<String> ciphertextFiles = getCiphertextFiles().get();
+        List<String> plaintextFiles = getPlaintextFiles().get();
+
+        for (int i=0; i < ciphertextFiles.size(); i++) {
+            File ciphertextFile = new File(ciphertextFiles.get(i));
+            File plaintextFile = new File(plaintextFiles.get(i));
+            if (ciphertextFile.exists() && ciphertextFile.canRead()) {
+                this.stdOut("ciphertextFile found: " + ciphertextFile.getAbsolutePath());
+
+                if (plaintextFile.exists() && plaintextFile.canWrite()) {
+                    this.stdOut("plaintextFile found: " + plaintextFile.getAbsolutePath());
+                    if (Files.size(plaintextFile.toPath()) == 0) {
+                        this.stdOut("plaintextFile empty: " + plaintextFile.getAbsolutePath());
+                    } else {
+                        this.stdErr("> plaintextFile not empty: " + plaintextFile.getAbsolutePath());
+                        this.stdErr("> won't overwrite; exiting by default.");
+                        return; // only overwrite empty files.
+                    }
+                }
             } else {
-                this.stdErr("> plaintextFile not empty: " + plaintextFile.getAbsolutePath());
-                this.stdErr("> won't overwrite; exiting by default.");
-                return; // only overwrite empty files.
+                this.stdErr("> ciphertextFile not found: " + ciphertextFile.getAbsolutePath());
+                return;
             }
-        } else {
-            this.stdErr("> plaintextFile not found: " + plaintextFile.getAbsolutePath());
         }
 
-        String cmd = "kms decrypt";
-        cmd += " --plaintext-file=" + getPlaintextFile().get();
-        cmd += " --ciphertext-file=" + getCiphertextFile().get();
-        cmd += " --location=" + getKmsLocation().get();
-        cmd += " --keyring=" + getKmsKeyring().get();
-        cmd += " --key=" + getKmsKey().get();
-        String result = this.execute(cmd);
-        this.stdOut(result);
+        StringBuilder result = new StringBuilder();
+        for (int i=0; i < ciphertextFiles.size(); i++) {
+            String cmd = "kms decrypt";
+            cmd += " --plaintext-file=" + plaintextFiles.get(i);
+            cmd += " --ciphertext-file=" + ciphertextFiles.get(i);
+            cmd += " --location=" + getKmsLocation().get();
+            cmd += " --keyring=" + getKmsKeyring().get();
+            cmd += " --key=" + getKmsKey().get();
+            result.append(this.execute(cmd));
+        }
+        this.stdOut(result.toString());
     }
 }

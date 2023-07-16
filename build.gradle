@@ -7,7 +7,7 @@ buildscript {
         plugin_identifier = 'google-cloud-kms-gradle-plugin'
         plugin_class = 'io.syslogic.cloudkms.CloudKmsPlugin'
         plugin_id = 'io.syslogic.cloudkms'
-        plugin_version = '1.0.2'
+        plugin_version = '1.0.3'
     }
 }
 

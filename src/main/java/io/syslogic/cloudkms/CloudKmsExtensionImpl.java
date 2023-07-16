@@ -2,14 +2,16 @@ package io.syslogic.cloudkms;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * Public API for Gradle build scripts.
  * @author Martin Zeitler
  */
 @SuppressWarnings("unused")
 public class CloudKmsExtensionImpl implements CloudKmsExtension {
-    private String ciphertextFile = null;
-    private String plaintextFile = null;
+    private List<String> ciphertextFiles;
+    private List<String> plaintextFiles;
     private String kmsLocation = null;
     private String kmsKeyring = null;
     private String kmsKey = null;
@@ -17,23 +19,22 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
     /**
      * Define the path to the encoded keystore file.
      * <br><br>
-     * <code>cloudKms {ciphertextFile = ""}</code>
+     * <code>cloudKms {ciphertextFiles = [""]}</code>
      * @param value the absolute path to the encoded keystore file.
      */
-    public void setCiphertextFile(@NotNull String value) {
-        this.ciphertextFile = value;
+    public void setCiphertextFiles(@NotNull List<String> value) {
+        this.ciphertextFiles = value;
     }
 
     /**
      * Define the path to the plain-text keystore file.
      * <br><br>
-     * <code>cloudKms {plaintextFile = ""}</code>
+     * <code>cloudKms {plaintextFiles = [""]}</code>
      * @param value the absolute path to the encoded keystore file.
      */
-    public void setPlaintextFile(@NotNull String value) {
-        this.plaintextFile = value;
+    public void setPlaintextFiles(@NotNull List<String> value) {
+        this.plaintextFiles = value;
     }
-
     /**
      * Define the Google Cloud KMS key-ring location.
      * <br><br>
@@ -64,14 +65,14 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
         this.kmsKey = value;
     }
 
-    /** @return the path to the cipher-text file. */
     @Override
-    public String getCiphertextFile() {return this.ciphertextFile;}
+    public List<String> getCiphertextFiles() {
+        return this.ciphertextFiles;
+    }
 
-    /** @return the path to the plain-text file. */
     @Override
-    public String getPlaintextFile() {
-        return this.plaintextFile;
+    public List<String> getPlaintextFiles() {
+        return this.plaintextFiles;
     }
 
     /** @return Google Cloud KMS key-ring location. */

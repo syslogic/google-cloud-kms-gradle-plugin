@@ -29,7 +29,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
-        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.2'
+        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.3'
     }
 }
 ````
@@ -46,8 +46,10 @@ plugins {
 
 `CloudKmsExtension` can be configured with the following properties:
 
- - `ciphertextFile`: 
- - `plaintextFile`: 
+ - `ciphertextFile`:
+ - `ciphertextFiles`:
+ - `plaintextFile`:
+ - `plaintextFiles`:
  - `kmsLocation`: 
  - `kmsKeystore`:
  - `kmsKey`:
@@ -56,21 +58,20 @@ plugins {
 
 /** Google Cloud KMS */
 cloudKms {
-    ciphertextFile = 'credentials/debug.keystore.enc'
-    plaintextFile = '~/.android/debug.keystore'
+    ciphertextFiles = [
+        'credentials/debug.keystore.enc',
+        'credentials/release.keystore.enc'
+    ]
+    plaintextFiles = [
+        '~/.android/debug.keystore',
+        '~/.android/release.keystore'
+    ]
     kmsLocation = 'global'
     kmsKeystore = 'android-gradle'
     kmsKey = 'default'
 }
 ````
-
-These properties are all optional, while:
-
- - providing the plain-text file at the default location: `~/.android/debug.keystore`.
- - providing the cipher file at the default location: `credentials/debug.keystore.enc`.
-
 ### Known Issues
- - It currently only supports one single filename.
  - In case the key-ring cannot be found:
 ````
 ERROR: (gcloud.kms.encrypt) NOT_FOUND: CryptoKey projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default not found.``
