@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.List;
 
 import io.syslogic.cloudkms.task.CloudKmsDecryptTask;
 import io.syslogic.cloudkms.task.CloudKmsEncryptTask;
@@ -17,6 +18,7 @@ import io.syslogic.cloudkms.task.CloudKmsEncryptTask;
  */
 @SuppressWarnings("unused")
 class CloudKmsPlugin implements Plugin<Project> {
+
     @Nullable CloudKmsExtension extension;
     private @Nullable String plaintextFile = null;
     private @Nullable String ciphertextFile = null;
@@ -24,6 +26,9 @@ class CloudKmsPlugin implements Plugin<Project> {
     private @NotNull String kmsKeyring = "android-gradle";
     private @NotNull String kmsKey = "default";
 
+    // private @Nullable List<String> plaintextFiles = null;
+    // private @Nullable List<String> ciphertextFiles = null;
+    
     @Override
     public void apply(@NotNull Project project) {
 
@@ -33,19 +38,33 @@ class CloudKmsPlugin implements Plugin<Project> {
         /* Project after evaluate. */
         project.afterEvaluate(it -> {
 
-            /* Apply the default path for the encoded file. */
-            this.ciphertextFile = project.getRootProject().getProjectDir().getAbsolutePath() +
-                    File.separator + "credentials" + File.separator + "debug.keystore.enc";
+            if (this.extension.getCiphertextFile() != null) {
+                this.ciphertextFile = this.extension.getCiphertextFile();
+            } else {
+                /* Apply the default path for the encrypted file. */
+                this.ciphertextFile = project.getRootProject().getProjectDir().getAbsolutePath() +
+                        File.separator + "credentials" + File.separator + "debug.keystore.enc";
+            }
 
-            /* Apply the default path for the plain-text file. */
-            this.plaintextFile = System.getProperty("user.home") + File.separator +
-                    ".android" + File.separator + "debug.keystore";
+            if (this.extension.getPlaintextFile() != null) {
+                this.plaintextFile = this.extension.getPlaintextFile();
+            } else {
+                /* Apply the default path for the plain-text file. */
+                this.plaintextFile = System.getProperty("user.home") + File.separator +
+                        ".android" + File.separator + "debug.keystore";
+            }
 
-            if (this.extension.getCiphertextFile() != null) {this.ciphertextFile = this.extension.getCiphertextFile();}
-            if (this.extension.getPlaintextFile() != null) {this.plaintextFile = this.extension.getPlaintextFile();}
-            if (this.extension.getKmsLocation() != null) {this.kmsLocation = this.extension.getKmsLocation();}
-            if (this.extension.getKmsKeyring() != null) {this.kmsKeyring = this.extension.getKmsKeyring();}
-            if (extension.getKmsKey() != null) {this.kmsKey = this.extension.getKmsKey();}
+            if (this.extension.getKmsLocation() != null) {
+                this.kmsLocation = this.extension.getKmsLocation();
+            }
+
+            if (this.extension.getKmsKeyring() != null) {
+                this.kmsKeyring = this.extension.getKmsKeyring();
+            }
+
+            if (extension.getKmsKey() != null) {
+                this.kmsKey = this.extension.getKmsKey();
+            }
 
             /* Register Tasks: CloudKmsEncode */
             registerCloudKmsEncryptTask(project);
