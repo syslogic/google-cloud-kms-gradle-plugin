@@ -46,13 +46,11 @@ plugins {
 
 `CloudKmsExtension` can be configured with the following properties:
 
- - `ciphertextFile`:
- - `ciphertextFiles`:
- - `plaintextFile`:
- - `plaintextFiles`:
- - `kmsLocation`: 
- - `kmsKeystore`:
- - `kmsKey`:
+ - `ciphertextFiles`: string array, default value `[]`.
+ - `plaintextFiles`: string array, default value `[]`.
+ - `kmsLocation`: string, default `'global'`.
+ - `kmsKeystore`: string, default `'android-gradle'`.
+ - `kmsKey`: string, default `'android-gradle'`.
 
 ````groovy
 
@@ -68,7 +66,7 @@ cloudKms {
     ]
     kmsLocation = 'global'
     kmsKeystore = 'android-gradle'
-    kmsKey = 'default'
+    kmsKey = 'android-gradle'
 }
 ````
 ### Known Issues
