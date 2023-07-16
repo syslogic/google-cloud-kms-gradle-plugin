@@ -60,11 +60,17 @@ The `CloudKmsExtension` can be configured with the following properties:
 cloudKms {
     ciphertextFiles = [
             getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
-            getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc'
+            getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc',
+            getRootDir().absolutePath + File.separator + 'credentials/keystore.properties.enc',
+            getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json.enc',
+            getRootDir().absolutePath + File.separator + 'credentials/google-services.json.enc'
     ]
     plaintextFiles = [
             System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
-            System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore"
+            System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore",
+            getRootDir().absolutePath + File.separator + 'keystore.properties',
+            getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
+            getProjectDir().absolutePath + File.separator + 'google-services.json'
     ]
     kmsLocation = 'global'
     kmsKeystore = 'android-gradle'
