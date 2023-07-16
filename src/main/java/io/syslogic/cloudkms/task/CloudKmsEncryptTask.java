@@ -8,7 +8,9 @@ import java.nio.file.Files;
 import java.util.List;
 
 /**
- * Abstract Encrypt {@link io.syslogic.cloudkms.task.BaseTask}
+ * Abstract Encrypt {@link io.syslogic.cloudkms.task.BaseTask}.
+ * Note: This is meant to run locally, in order to encrypt relevant files.
+ * Those *.enc files are save and meant to be checked in to version control.
  *
  * @author Martin Zeitler
  */
@@ -52,7 +54,6 @@ abstract public class CloudKmsEncryptTask extends BaseTask {
             }
         }
 
-
         String params = this.getParams();
         StringBuilder result = new StringBuilder();
         for (int i=0; i < ciphertextFiles.size(); i++) {
@@ -60,7 +61,7 @@ abstract public class CloudKmsEncryptTask extends BaseTask {
             cmd += " --plaintext-file=" + plaintextFiles.get(i);
             cmd += " --ciphertext-file=" + ciphertextFiles.get(i);
             cmd += params;
-            result.append(this.execute(cmd)).append("\n");
+            result.append(this.execute(cmd));
         }
         this.stdOut(result.toString());
       }

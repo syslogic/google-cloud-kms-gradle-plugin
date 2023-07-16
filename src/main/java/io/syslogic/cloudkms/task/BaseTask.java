@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Abstract {@link BaseTask}
+ * Abstract {@link BaseTask}.
  *
  * @author Martin Zeitler
  */

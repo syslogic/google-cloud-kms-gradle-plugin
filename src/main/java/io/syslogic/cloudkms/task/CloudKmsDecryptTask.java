@@ -8,7 +8,8 @@ import java.nio.file.Files;
 import java.util.List;
 
 /**
- * Abstract Decrypt {@link BaseTask}
+ * Abstract Decrypt {@link BaseTask}.
+ * Note: This is meant to run remotely, in order to decrypt relevant files.
  *
  * @author Martin Zeitler
  */
@@ -57,7 +58,7 @@ abstract public class CloudKmsDecryptTask extends BaseTask {
             cmd += " --plaintext-file=" + plaintextFiles.get(i);
             cmd += " --ciphertext-file=" + ciphertextFiles.get(i);
             cmd += params;
-            result.append(this.execute(cmd)).append("\n");
+            result.append(this.execute(cmd));
         }
         this.stdOut(result.toString());
     }
