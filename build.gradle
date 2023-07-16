@@ -1,0 +1,102 @@
+// :buildSrc
+buildscript {
+    ext {
+        github_handle = 'syslogic'
+        plugin_display_name = 'Google Cloud KMS Plugin'
+        plugin_description = 'It encrypts and decrypts files with Cloud KMS'
+        plugin_identifier = 'google-cloud-kms-gradle-plugin'
+        plugin_class = 'io.syslogic.cloudkms.CloudKmsPlugin'
+        plugin_id = 'io.syslogic.cloudkms'
+        plugin_version = '1.0.2'
+    }
+}
+
+plugins {
+    id 'org.gradle.java-gradle-plugin'
+    id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '1.2.0'
+}
+
+dependencies {
+
+    compileOnly gradleApi()
+    implementation 'org.jetbrains:annotations:22.0.0'
+
+    testImplementation gradleTestKit()
+    testImplementation 'org.jetbrains:annotations:22.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation(project)
+}
+
+gradlePlugin {
+    plugins {
+        CloudKmsPlugin {
+            id = "${plugin_id}"
+            displayName = "${plugin_display_name}"
+            description = "${plugin_description}"
+            implementationClass = "${plugin_class}"
+        }
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    archiveBaseName.set(plugin_identifier)
+    archiveVersion.set("${plugin_version}")
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
+
+task javadocs(type: Javadoc) {
+    title = "${plugin_display_name} API"
+    source = java.sourceSets.main.java.srcDirs
+    destinationDir = file("${project.buildDir}/outputs/javadoc/")
+    configurations.implementation.setCanBeResolved(true)
+    classpath = files(new File(System.getProperty('java.home') + File.separator + 'lib' + File.separator + 'rt.jar'))
+    classpath += configurations.implementation
+    options.links "https://docs.oracle.com/en/java/javase/17/docs/api/"
+    options.linkSource true
+    options.author true
+    failOnError false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    from java.sourceSets.main.java.srcDirs
+    archiveClassifier.set('sources')
+}
+
+group = 'io.syslogic'
+version = "${plugin_version}"
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = group
+                artifactId = "${plugin_identifier}"
+                from components.getByName("java")
+                version = "${plugin_version}"
+                pom {
+                    name = "${plugin_display_name}"
+                    description = "${plugin_description}"
+                    url = "https://github.com/${github_handle}/${plugin_identifier}"
+                    scm {
+                        connection = "scm:git:git://github.com/${github_handle}/${plugin_identifier}.git"
+                        developerConnection = "scm:git:ssh://github.com/${github_handle}/${plugin_identifier}.git"
+                        url = "https://github.com/${github_handle}/${plugin_identifier}/"
+                    }
+                }
+            }
+        }
+    }
+}
