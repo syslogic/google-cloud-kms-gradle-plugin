@@ -52,14 +52,14 @@ abstract public class CloudKmsEncryptTask extends BaseTask {
             }
         }
 
+
+        String params = this.getParams();
         StringBuilder result = new StringBuilder();
         for (int i=0; i < ciphertextFiles.size(); i++) {
             String cmd = "kms encrypt";
             cmd += " --plaintext-file=" + plaintextFiles.get(i);
             cmd += " --ciphertext-file=" + ciphertextFiles.get(i);
-            cmd += " --location=" + getKmsLocation().get();
-            cmd += " --keyring=" + getKmsKeyring().get();
-            cmd += " --key=" + getKmsKey().get();
+            cmd += params;
             result.append(this.execute(cmd)).append("\n");
         }
         this.stdOut(result.toString());

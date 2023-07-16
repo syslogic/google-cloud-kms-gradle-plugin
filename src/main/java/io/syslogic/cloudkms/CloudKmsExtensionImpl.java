@@ -12,6 +12,7 @@ import java.util.List;
 public class CloudKmsExtensionImpl implements CloudKmsExtension {
     private List<String> ciphertextFiles;
     private List<String> plaintextFiles;
+    private String kmsKeyPath = null;
     private String kmsLocation = null;
     private String kmsKeyring = null;
     private String kmsKey = null;
@@ -35,6 +36,17 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
     public void setPlaintextFiles(@NotNull List<String> value) {
         this.plaintextFiles = value;
     }
+
+    /**
+     * Define the Google Cloud KMS key-ring location.
+     * <br><br>
+     * <code>cloudKms {kmsKeyPath = "global"}</code>
+     * @param value the path of the key.
+     */
+    public void setKmsKeyPath(@NotNull String value) {
+        this.kmsKeyPath = value;
+    }
+
     /**
      * Define the Google Cloud KMS key-ring location.
      * <br><br>
@@ -73,6 +85,11 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
     @Override
     public List<String> getPlaintextFiles() {
         return this.plaintextFiles;
+    }
+
+    @Override
+    public String getKmsKeyPath() {
+        return this.kmsKeyPath;
     }
 
     /** @return Google Cloud KMS key-ring location. */

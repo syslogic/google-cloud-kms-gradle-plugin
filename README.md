@@ -29,7 +29,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
-        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.4'
+        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.5'
     }
 }
 ````
@@ -46,13 +46,14 @@ plugins {
 
 The `CloudKmsExtension` can be configured with the following properties:
 
-|                    Property |      Default       |
-|----------------------------:|:------------------:|
-|  `String[] ciphertextFiles` |        `[]`        |
-|   `String[] plaintextFiles` |        `[]`        |
-|        `String kmsLocation` |     `'global'`     |
-|        `String kmsKeystore` | `'android-gradle'` |
-|             `String kmsKey` |    `'default'`     |
+|                   Property |      Default       |
+|---------------------------:|:------------------:|
+| `String[] ciphertextFiles` |        `[]`        |
+|  `String[] plaintextFiles` |        `[]`        |
+|        `String kmsKeyPath` |       `null`       |
+|       `String kmsLocation` |     `'global'`     |
+|       `String kmsKeystore` | `'android-gradle'` |
+|            `String kmsKey` |    `'default'`     |
 
 ### Example
 
@@ -61,6 +62,10 @@ Properties `ciphertextFiles` and `plaintextFiles` must match; they are being use
 ````groovy
 /** Google Cloud KMS */
 cloudKms {
+
+    // Property kmsKeyPath is being preferred.
+    kmsKeyPath = 'projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default'
+    
     ciphertextFiles = [
             /* 0 */ getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
             /* 1 */ getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc',
@@ -75,9 +80,6 @@ cloudKms {
             /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
             /* 4 */ getProjectDir().absolutePath + File.separator + 'google-services.json'
     ]
-    kmsLocation = 'global'
-    kmsKeystore = 'android-gradle'
-    kmsKey = 'android-gradle'
 }
 ````
 ### Known Issues

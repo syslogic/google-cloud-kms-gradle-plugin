@@ -5,11 +5,14 @@ import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.internal.os.OperatingSystem;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Abstract {@link BaseTask}
@@ -33,6 +36,13 @@ abstract public class BaseTask extends DefaultTask {
     abstract public ListProperty<String> getPlaintextFiles();
 
     /**
+     * Task Input `kmsKeyPath`.
+     * @return path of the key.
+     */
+    @Input
+    abstract public Property<String> getKmsKeyPath();
+
+    /**
      * Task Input `kmsLocation`.
      * @return location of the key-ring.
      */
@@ -52,6 +62,8 @@ abstract public class BaseTask extends DefaultTask {
      */
     @Input
     abstract public Property<String> getKmsKey();
+
+    private static final String KMS_KEY_PATH_PATTERN = "^projects/(.*)/locations/(.*)/keyRings/(.*)/cryptoKeys/(.*)$";
 
     void stdOut(@NotNull String value) {
         System.out.println(value);
@@ -114,5 +126,29 @@ abstract public class BaseTask extends DefaultTask {
             throw new RuntimeException(e);
         }
         return stdOutput.toString();
+    }
+
+    /** @return gcloud parameters, either from keyPath or from location/keyStore/key */
+    @Input
+    protected String getParams() {
+        String param = null;
+        boolean found = false;
+        if (! getKmsKeyPath().get().isEmpty()) {
+            Pattern p = Pattern.compile(KMS_KEY_PATH_PATTERN);
+            Matcher matcher = p.matcher(getKmsKeyPath().get());
+            while (matcher.find()) {
+                param = " --location=" + matcher.group(2);
+                param += " --keyring=" + matcher.group(3);
+                param += " --key=" + matcher.group(4);
+                found = true;
+            }
+        }
+
+        if (! found) {
+            param = " --location=" + getKmsLocation().get();
+            param += " --keyring=" + getKmsKeyring().get();
+            param += " --key=" + getKmsKey().get();
+        }
+        return param;
     }
 }

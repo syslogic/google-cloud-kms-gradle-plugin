@@ -23,6 +23,8 @@ public interface CloudKmsExtension {
      */
     List<String> getPlaintextFiles();
 
+    String getKmsKeyPath();
+
     /**
      * Define the key-ring location for Cloud KMS.
      * <code>cloudKms {kmsLocation = "global"}</code>
