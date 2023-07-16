@@ -91,8 +91,10 @@ gcloud config set project PROJECT_ID
 ````
 
 ### Support
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/google-cloud-kms)
-- [Issue Tracker](https://github.com/syslogic/google-cloud-kms-gradle-plugin/issues)
+ - [KMS Documentation](https://cloud.google.com/kms/doc)
+ - [CLI Documentation](https://cloud.google.com/sdk/gcloud/reference/kms)
+ - [Stack Overflow](https://stackoverflow.com/questions/tagged/google-cloud-kms)
+ - [Issue Tracker](https://github.com/syslogic/google-cloud-kms-gradle-plugin/issues)
 
 ### Status
 
