@@ -52,8 +52,6 @@ abstract public class BaseTask extends DefaultTask {
     @Input
     abstract public Property<String> getKmsKey();
 
-    /** The absolute path to the gcloud command. */
-
     boolean configure() {
         return true;
     }
@@ -86,6 +84,7 @@ abstract public class BaseTask extends DefaultTask {
         return stdOut.toString();
     }
 
+    /** It executes the gcloud CLI command in PowerShell or Bash. */
     @NotNull
     protected String execute(String command) {
         String cmd;
