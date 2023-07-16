@@ -19,37 +19,34 @@ abstract public class CloudKmsEncryptTask extends BaseTask {
      */
     @TaskAction
     public void run() throws IOException {
-        if (this.configure()) {
-
-            File plaintextFile = new File(getPlaintextFile().get());
-            if (plaintextFile.exists() && plaintextFile.canRead()) {
-                this.stdOut("plaintextFile found: " + plaintextFile.getAbsolutePath());
-            } else {
-                this.stdErr("> plaintextFile not found: " + plaintextFile.getAbsolutePath());
-            }
-
-            File ciphertextFile = new File(getCiphertextFile().get());
-            if (ciphertextFile.exists() && ciphertextFile.canWrite()) {
-                this.stdOut("ciphertextFile found: " + ciphertextFile.getAbsolutePath());
-                if ( Files.size(ciphertextFile.toPath()) == 0) {
-                    this.stdOut("ciphertextFile empty: " + plaintextFile.getAbsolutePath());
-                } else {
-                    this.stdErr("> ciphertextFile not empty: " + ciphertextFile.getAbsolutePath());
-                    this.stdErr("> won't overwrite; exiting by default.");
-                    return; // only overwrite empty files.
-                }
-            } else {
-                this.stdErr("> ciphertextFile not found: " + ciphertextFile.getAbsolutePath());
-            }
-
-            String cmd = "kms encrypt";
-            cmd += " --plaintext-file=" + getPlaintextFile().get();
-            cmd += " --ciphertext-file=" + getCiphertextFile().get();
-            cmd += " --location=" + getKmsLocation().get();
-            cmd += " --keyring=" + getKmsKeyring().get();
-            cmd += " --key=" + getKmsKey().get();
-            String result = this.execute(cmd);
-            this.stdOut(result);
+        File plaintextFile = new File(getPlaintextFile().get());
+        if (plaintextFile.exists() && plaintextFile.canRead()) {
+            this.stdOut("plaintextFile found: " + plaintextFile.getAbsolutePath());
+        } else {
+            this.stdErr("> plaintextFile not found: " + plaintextFile.getAbsolutePath());
         }
+
+        File ciphertextFile = new File(getCiphertextFile().get());
+        if (ciphertextFile.exists() && ciphertextFile.canWrite()) {
+            this.stdOut("ciphertextFile found: " + ciphertextFile.getAbsolutePath());
+            if ( Files.size(ciphertextFile.toPath()) == 0) {
+                this.stdOut("ciphertextFile empty: " + plaintextFile.getAbsolutePath());
+            } else {
+                this.stdErr("> ciphertextFile not empty: " + ciphertextFile.getAbsolutePath());
+                this.stdErr("> won't overwrite; exiting by default.");
+                return; // only overwrite empty files.
+            }
+        } else {
+            this.stdErr("> ciphertextFile not found: " + ciphertextFile.getAbsolutePath());
+        }
+
+        String cmd = "kms encrypt";
+        cmd += " --plaintext-file=" + getPlaintextFile().get();
+        cmd += " --ciphertext-file=" + getCiphertextFile().get();
+        cmd += " --location=" + getKmsLocation().get();
+        cmd += " --keyring=" + getKmsKeyring().get();
+        cmd += " --key=" + getKmsKey().get();
+        String result = this.execute(cmd);
+        this.stdOut(result);
     }
 }

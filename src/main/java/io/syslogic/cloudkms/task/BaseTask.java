@@ -52,10 +52,6 @@ abstract public class BaseTask extends DefaultTask {
     @Input
     abstract public Property<String> getKmsKey();
 
-    boolean configure() {
-        return true;
-    }
-
     void stdOut(@NotNull String value) {
         System.out.println(value);
     }
