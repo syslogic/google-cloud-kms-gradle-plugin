@@ -54,8 +54,9 @@ The `CloudKmsExtension` can be configured with the following properties:
 |        `String kmsKeystore` | `'android-gradle'` |
 |             `String kmsKey` |    `'default'`     |
 
-````groovy
+### Example
 
+````groovy
 /** Google Cloud KMS */
 cloudKms {
     ciphertextFiles = [
