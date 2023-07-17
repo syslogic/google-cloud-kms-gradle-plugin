@@ -76,9 +76,8 @@ Properties `ciphertextFiles` and `plaintextFiles` must match; they are being use
 /** Google Cloud KMS */
 cloudKms {
 
-    // Property `kmsKeyPath` is essential.
-    // kmsKeyPath = 'projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY'
-    kmsKeyPath = System.getenv('CLOUD_KMS_KEY_PATH')
+    // The leading underscore is required due to the CloudBuild environment.
+    kmsKeyPath = System.getenv('_CLOUD_KMS_KEY_PATH')
 
     plaintextFiles = [
             /* 0 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
