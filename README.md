@@ -107,7 +107,7 @@ The encrypted files will come from version control.
 ### Known Issues
  - In case the key cannot be found:
 ````
-ERROR: (gcloud.kms.encrypt) NOT_FOUND: CryptoKey projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default not found.``
+ERROR: (gcloud.kms.encrypt) NOT_FOUND: CryptoKey projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY not found.``
 ````
 
 It may help to switch the account ID and/or the project ID.
