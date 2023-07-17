@@ -32,14 +32,14 @@ class CloudKmsPlugin implements Plugin<Project> {
 
         /* Project after evaluate. */
         project.afterEvaluate(it -> {
-            if (this.extension.getCiphertextFiles() != null) {
-                this.ciphertextFiles = this.extension.getCiphertextFiles();
+            if (this.extension.getKmsKeyPath() != null) {
+                this.kmsKeyPath = this.extension.getKmsKeyPath();
             }
             if (this.extension.getPlaintextFiles() != null) {
                 this.plaintextFiles = this.extension.getPlaintextFiles();
             }
-            if (this.extension.getKmsKeyPath() != null) {
-                this.kmsKeyPath = this.extension.getKmsKeyPath();
+            if (this.extension.getCiphertextFiles() != null) {
+                this.ciphertextFiles = this.extension.getCiphertextFiles();
             }
             registerCloudKmsEncryptTask(project);
             registerCloudKmsDecryptTask(project);
