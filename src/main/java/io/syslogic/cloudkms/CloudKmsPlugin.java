@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import io.syslogic.cloudkms.task.BaseTask;
 import io.syslogic.cloudkms.task.CloudKmsDecryptTask;
 import io.syslogic.cloudkms.task.CloudKmsEncryptTask;
 
@@ -22,6 +23,17 @@ class CloudKmsPlugin implements Plugin<Project> {
     private @Nullable List<String> plaintextFiles = List.of(new String[]{});
     private @Nullable List<String> ciphertextFiles = List.of(new String[]{});
     private @Nullable String kmsKeyPath = null;
+
+    void registerTask(@NotNull Project project, String taskName, Class<? extends BaseTask> cls) {
+        if (project.getTasks().findByName(taskName) == null) {
+            project.getTasks().register(taskName, cls, task -> {
+                task.setGroup("cloudkms");
+                task.getKmsKeyPath().set(this.kmsKeyPath);
+                task.getPlaintextFiles().set(this.plaintextFiles);
+                task.getCiphertextFiles().set(this.ciphertextFiles);
+            });
+        }
+    }
 
     @Override
     public void apply(@NotNull Project project) {
@@ -41,30 +53,8 @@ class CloudKmsPlugin implements Plugin<Project> {
             if (this.extension.getCiphertextFiles() != null) {
                 this.ciphertextFiles = this.extension.getCiphertextFiles();
             }
-            registerCloudKmsEncryptTask(project);
-            registerCloudKmsDecryptTask(project);
+            registerTask(project, "cloudKmsEncrypt", CloudKmsEncryptTask.class);
+            registerTask(project, "cloudKmsDecrypt", CloudKmsDecryptTask.class);
         });
-    }
-
-    void registerCloudKmsEncryptTask(@NotNull Project project) {
-        if (project.getTasks().findByName("cloudKmsEncrypt") == null) {
-            project.getTasks().register("cloudKmsEncrypt", CloudKmsEncryptTask.class, task -> {
-                task.setGroup("cloudkms");
-                task.getCiphertextFiles().set(this.ciphertextFiles);
-                task.getPlaintextFiles().set(this.plaintextFiles);
-                task.getKmsKeyPath().set(this.kmsKeyPath);
-            });
-        }
-    }
-
-    void registerCloudKmsDecryptTask(@NotNull Project project) {
-        if (project.getTasks().findByName("cloudKmsDecrypt") == null) {
-            project.getTasks().register("cloudKmsDecrypt", CloudKmsDecryptTask.class, task -> {
-                task.setGroup("cloudkms");
-                task.getCiphertextFiles().set(this.ciphertextFiles);
-                task.getPlaintextFiles().set(this.plaintextFiles);
-                task.getKmsKeyPath().set(this.kmsKeyPath);
-            });
-        }
     }
 }
