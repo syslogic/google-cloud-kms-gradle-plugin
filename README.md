@@ -94,7 +94,7 @@ cloudKms {
     ]
 }
 ````
-### Tasks
+### Gradle Tasks
 
  - `:cloudKmsEncrypt` is meant to run locally, in order to encrypt relevant files.
  - `:cloudKmsDecrypt` is meant to run remotely, in order to decrypt relevant files.
