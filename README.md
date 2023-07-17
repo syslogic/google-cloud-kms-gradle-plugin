@@ -65,10 +65,6 @@ The `CloudKmsExtension` can be configured with the following properties:
 | `String[] ciphertextFiles` |        `[]`        |
 |  `String[] plaintextFiles` |        `[]`        |
 |        `String kmsKeyPath` |       `null`       |
-|                            |                    |
-|       `String kmsLocation` |     `'global'`     |
-|       `String kmsKeystore` | `'android-gradle'` |
-|            `String kmsKey` |    `'default'`     |
 
 ### Example
 
@@ -80,7 +76,7 @@ cloudKms {
 
     // Property kmsKeyPath is being preferred.
     kmsKeyPath = 'projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default'
-    
+
     ciphertextFiles = [
             /* 0 */ getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
             /* 1 */ getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc',
@@ -113,7 +109,7 @@ It may help to switch the account ID and/or the project ID.
 gcloud auth login
 gcloud config set project PROJECT_ID
 ````
-One can also list the paths of the available keys.
+One can also list all the available keys of a project.
 ````
 gcloud kms keyrings list --location=global
 gcloud kms keys list --keyring=projects/PROJECT_ID/locations/global/keyRings/android-gradle

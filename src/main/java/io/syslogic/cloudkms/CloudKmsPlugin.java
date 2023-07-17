@@ -22,9 +22,6 @@ class CloudKmsPlugin implements Plugin<Project> {
     private @Nullable List<String> plaintextFiles = List.of(new String[]{});
     private @Nullable List<String> ciphertextFiles = List.of(new String[]{});
     private @Nullable String kmsKeyPath = null;
-    private @NotNull String kmsLocation = "global";
-    private @NotNull String kmsKeyring = "android-gradle";
-    private @NotNull String kmsKey = "default";
 
     @Override
     public void apply(@NotNull Project project) {
@@ -48,18 +45,6 @@ class CloudKmsPlugin implements Plugin<Project> {
                 /* construct from full key path */
                 this.kmsKeyPath = this.extension.getKmsKeyPath();
 
-            } else {
-
-                /* construct from path fragments */
-                if (this.extension.getKmsLocation() != null) {
-                    this.kmsLocation = this.extension.getKmsLocation();
-                }
-                if (this.extension.getKmsKeyring() != null) {
-                    this.kmsKeyring = this.extension.getKmsKeyring();
-                }
-                if (extension.getKmsKey() != null) {
-                    this.kmsKey = this.extension.getKmsKey();
-                }
             }
 
             /* Register Tasks: CloudKmsEncode */
@@ -77,9 +62,6 @@ class CloudKmsPlugin implements Plugin<Project> {
                 task.getCiphertextFiles().set(this.ciphertextFiles);
                 task.getPlaintextFiles().set(this.plaintextFiles);
                 task.getKmsKeyPath().set(this.kmsKeyPath);
-                task.getKmsLocation().set(this.kmsLocation);
-                task.getKmsKeyring().set(this.kmsKeyring);
-                task.getKmsKey().set(this.kmsKey);
             });
         }
     }
@@ -91,9 +73,6 @@ class CloudKmsPlugin implements Plugin<Project> {
                 task.getCiphertextFiles().set(this.ciphertextFiles);
                 task.getPlaintextFiles().set(this.plaintextFiles);
                 task.getKmsKeyPath().set(this.kmsKeyPath);
-                task.getKmsLocation().set(this.kmsLocation);
-                task.getKmsKeyring().set(this.kmsKeyring);
-                task.getKmsKey().set(this.kmsKey);
             });
         }
     }

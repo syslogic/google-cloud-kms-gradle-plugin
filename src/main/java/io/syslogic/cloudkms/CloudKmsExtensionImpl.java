@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Public API for Gradle build scripts.
+ * Either `kmsKeyPath` or `kmsLocation`, `kmsKeyring` and `kmsKey` are required.
  * @author Martin Zeitler
  */
 @SuppressWarnings("unused")
@@ -13,9 +14,6 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
     private List<String> ciphertextFiles;
     private List<String> plaintextFiles;
     private String kmsKeyPath = null;
-    private String kmsLocation = null;
-    private String kmsKeyring = null;
-    private String kmsKey = null;
 
     /**
      * Define the path to the encoded keystore file.
@@ -47,36 +45,6 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
         this.kmsKeyPath = value;
     }
 
-    /**
-     * Define the Google Cloud KMS key-ring location.
-     * <br><br>
-     * <code>cloudKms {kmsLocation = "global"}</code>
-     * @param value the key-ring location.
-     */
-    public void setKmsLocation(@NotNull String value) {
-        this.kmsLocation = value;
-    }
-
-    /**
-     * Define the Google Cloud KMS key-ring name.
-     * <br><br>
-     * <code>cloudKms {kmsKeyring = "android-gradle"}</code>
-     * @param value the key-ring name.
-     */
-    public void setKmsKeyring(@NotNull String value) {
-        this.kmsKeyring = value;
-    }
-
-    /**
-     * Define the Google Cloud KMS key name.
-     * <br><br>
-     * <code>cloudKms {kmsKey = "default"}</code>
-     * @param value the key name.
-     */
-    public void setKmsKey(@NotNull String value) {
-        this.kmsKey = value;
-    }
-
     @Override
     public List<String> getCiphertextFiles() {
         return this.ciphertextFiles;
@@ -87,26 +55,9 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
         return this.plaintextFiles;
     }
 
+    /** @return Google Cloud KMS key-path. */
     @Override
     public String getKmsKeyPath() {
         return this.kmsKeyPath;
-    }
-
-    /** @return Google Cloud KMS key-ring location. */
-    @Override
-    public String getKmsLocation() {
-        return this.kmsLocation;
-    }
-
-    /** @return Google Cloud KMS key-ring name. */
-    @Override
-    public String getKmsKeyring() {
-        return this.kmsKeyring;
-    }
-
-    /** @return Google Cloud KMS key name. */
-    @Override
-    public String getKmsKey() {
-        return this.kmsKey;
     }
 }

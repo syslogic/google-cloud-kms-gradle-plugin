@@ -42,27 +42,6 @@ abstract public class BaseTask extends DefaultTask {
     @Input
     abstract public Property<String> getKmsKeyPath();
 
-    /**
-     * Task Input `kmsLocation`.
-     * @return location of the key-ring.
-     */
-    @Input
-    abstract public Property<String> getKmsLocation();
-
-    /**
-     * Task Input `kmsKeyring`.
-     * @return name of the key-ring.
-     */
-    @Input
-    abstract public Property<String> getKmsKeyring();
-
-    /**
-     * Task Input `kmsKey`.
-     * @return name of the key.
-     */
-    @Input
-    abstract public Property<String> getKmsKey();
-
     private static final String KMS_KEY_PATH_PATTERN = "^projects/(.*)/locations/(.*)/keyRings/(.*)/cryptoKeys/(.*)$";
 
     void stdOut(@NotNull String value) {
@@ -131,8 +110,7 @@ abstract public class BaseTask extends DefaultTask {
     /** @return gcloud parameters, either from keyPath or from location/keyStore/key */
     @Input
     protected String getParams() {
-        String param = null;
-        boolean found = false;
+        String param = " --location=global --keyring=android-gradle --key=default";
         if (! getKmsKeyPath().get().isEmpty()) {
             Pattern p = Pattern.compile(KMS_KEY_PATH_PATTERN);
             Matcher matcher = p.matcher(getKmsKeyPath().get());
@@ -140,14 +118,7 @@ abstract public class BaseTask extends DefaultTask {
                 param = " --location=" + matcher.group(2);
                 param += " --keyring=" + matcher.group(3);
                 param += " --key=" + matcher.group(4);
-                found = true;
             }
-        }
-
-        if (! found) {
-            param = " --location=" + getKmsLocation().get();
-            param += " --keyring=" + getKmsKeyring().get();
-            param += " --key=" + getKmsKey().get();
         }
         return param;
     }

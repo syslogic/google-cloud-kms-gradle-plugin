@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Public API for Gradle build scripts.
- *
  * @author Martin Zeitler
  */
 public interface CloudKmsExtension {
@@ -29,25 +28,4 @@ public interface CloudKmsExtension {
      * @return the fully qualified key-path for Cloud KMS.
      */
     String getKmsKeyPath();
-
-    /**
-     * Define the key-ring location for Cloud KMS.
-     * <code>cloudKms {kmsLocation = "global"}</code>
-     * @return the key-ring location for Cloud KMS.
-     */
-    String getKmsLocation();
-
-    /**
-     * Define the key-ring name for Cloud KMS.
-     * <code>cloudKms {kmsKeyring = "android-gradle"}</code>
-     * @return the key-ring name for Cloud KMS.
-     */
-    String getKmsKeyring();
-
-    /**
-     * Define the key name for Cloud KMS.
-     * <code>cloudKms {kmsKey = "default"}</code>
-     * @return the key name for Cloud KMS.
-     */
-    String getKmsKey();
 }
