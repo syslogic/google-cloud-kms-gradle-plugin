@@ -62,9 +62,10 @@ The `CloudKmsExtension` can be configured with the following properties:
 
 |                   Property |      Default       |
 |---------------------------:|:------------------:|
+|        `String kmsKeyPath` |       `null`       |
 | `String[] ciphertextFiles` |        `[]`        |
 |  `String[] plaintextFiles` |        `[]`        |
-|        `String kmsKeyPath` |       `null`       |
+
 
 ### Usage Example
 
