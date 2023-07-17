@@ -16,8 +16,7 @@ import java.util.List;
 abstract public class CloudKmsDecryptTask extends BaseTask {
 
     /**
-     * The default {@link TaskAction}.
-     * `ciphertextFiles` are the input for this task.
+     * `ciphertextFiles` are being used as the input for this {@link TaskAction}.
      * @throws IOException when the size of plaintextFile cannot be determined.
      */
     @TaskAction
