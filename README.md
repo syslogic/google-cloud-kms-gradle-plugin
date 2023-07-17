@@ -6,7 +6,8 @@
 ### Features
 
  - It encrypts and decrypts files with Cloud KMS.
-
+ - It only overwrites files, when they are empty.
+ - 
 ### Development
 
 The plugin source code can be swiftly installed into any Android Gradle project with `git clone`:
