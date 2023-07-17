@@ -75,7 +75,7 @@ Properties `ciphertextFiles` and `plaintextFiles` must match; they are being use
 cloudKms {
 
     // Property `kmsKeyPath` is essential.
-    // kmsKeyPath = 'projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default'
+    // kmsKeyPath = 'projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING_NAME/cryptoKeys/KEY_NAME'
     kmsKeyPath = System.getenv('CLOUD_KMS_KEY_PATH')
     
     ciphertextFiles = [
