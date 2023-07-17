@@ -98,7 +98,9 @@ cloudKms {
 ### Gradle Tasks
 
  - `:cloudKmsEncrypt` is meant to run locally, in order to encrypt relevant files.
+When having done so, one can check in these files to version control.
  - `:cloudKmsDecrypt` is meant to run remotely, in order to decrypt relevant files.
+The encrypted files will come from version control.
 
 ### Known Issues
  - In case the key cannot be found:
