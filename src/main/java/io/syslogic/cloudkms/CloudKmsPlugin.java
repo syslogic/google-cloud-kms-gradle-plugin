@@ -27,30 +27,21 @@ class CloudKmsPlugin implements Plugin<Project> {
     public void apply(@NotNull Project project) {
 
         /* Create project extension `cloudKms`. */
-        this.extension = project.getExtensions().create("cloudKms", CloudKmsExtensionImpl.class);
+        this.extension =
+                project.getExtensions().create("cloudKms", CloudKmsExtensionImpl.class);
 
         /* Project after evaluate. */
         project.afterEvaluate(it -> {
-
             if (this.extension.getCiphertextFiles() != null) {
                 this.ciphertextFiles = this.extension.getCiphertextFiles();
             }
-
             if (this.extension.getPlaintextFiles() != null) {
                 this.plaintextFiles = this.extension.getPlaintextFiles();
             }
-
             if (this.extension.getKmsKeyPath() != null) {
-
-                /* construct from full key path */
                 this.kmsKeyPath = this.extension.getKmsKeyPath();
-
             }
-
-            /* Register Tasks: CloudKmsEncode */
             registerCloudKmsEncryptTask(project);
-
-            /* Register Tasks: CloudKmsDecrypt */
             registerCloudKmsDecryptTask(project);
         });
     }
