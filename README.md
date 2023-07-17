@@ -70,7 +70,7 @@ The `CloudKmsExtension` can be configured with the following properties:
 
 ### Usage Example
 
-Properties `ciphertextFiles` and `plaintextFiles` must match; they are being used for both directions.
+Properties `plaintextFiles` and `ciphertextFiles` must match; they are being used for both directions.
 
 ````groovy
 /** Google Cloud KMS */
@@ -79,6 +79,7 @@ cloudKms {
     // The leading underscore is required due to the CloudBuild environment.
     kmsKeyPath = System.getenv('_CLOUD_KMS_KEY_PATH')
 
+    // local files to be ignored by version control:
     plaintextFiles = [
             /* 0 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
             /* 1 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore",
@@ -86,7 +87,8 @@ cloudKms {
             /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
             /* 4 */ getProjectDir().absolutePath + File.separator + 'google-services.json'
     ]
-
+    
+    // encrypted files can be checked in to version control:
     ciphertextFiles = [
             /* 0 */ getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
             /* 1 */ getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc',
@@ -102,6 +104,14 @@ cloudKms {
 When having done so, one can check in these files to version control.
  - `:cloudKmsDecrypt` is meant to run remotely, in order to decrypt relevant files.<br/>
 The encrypted files will come from version control.
+
+With task `:cloudKmsEncrypt`
+ - `plaintextFiles` is the local source,
+ - `ciphertextFiles` is the local destination.
+
+With task `:cloudKmsDecrypt`
+ - `ciphertextFiles` is the remote source,
+ - `plaintextFiles` is the remote destination.
 
 ### Known Issues
  - In case the key cannot be found:
