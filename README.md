@@ -63,8 +63,9 @@ The `CloudKmsExtension` can be configured with the following properties:
 |                   Property |      Default       |
 |---------------------------:|:------------------:|
 |        `String kmsKeyPath` |       `null`       |
-| `String[] ciphertextFiles` |        `[]`        |
 |  `String[] plaintextFiles` |        `[]`        |
+| `String[] ciphertextFiles` |        `[]`        |
+
 
 
 ### Usage Example
@@ -78,6 +79,14 @@ cloudKms {
     // Property `kmsKeyPath` is essential.
     // kmsKeyPath = 'projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY'
     kmsKeyPath = System.getenv('CLOUD_KMS_KEY_PATH')
+
+    plaintextFiles = [
+            /* 0 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
+            /* 1 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore",
+            /* 2 */ getRootDir().absolutePath + File.separator + 'keystore.properties',
+            /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
+            /* 4 */ getProjectDir().absolutePath + File.separator + 'google-services.json'
+    ]
     
     ciphertextFiles = [
             /* 0 */ getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
@@ -85,13 +94,6 @@ cloudKms {
             /* 2 */ getRootDir().absolutePath + File.separator + 'credentials/keystore.properties.enc',
             /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json.enc',
             /* 4 */ getRootDir().absolutePath + File.separator + 'credentials/google-services.json.enc'
-    ]
-    plaintextFiles = [
-            /* 0 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "debug.keystore",
-            /* 1 */ System.getProperty("user.home") + File.separator + ".android" + File.separator + "release.keystore",
-            /* 2 */ getRootDir().absolutePath + File.separator + 'keystore.properties',
-            /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
-            /* 4 */ getProjectDir().absolutePath + File.separator + 'google-services.json'
     ]
 }
 ````
