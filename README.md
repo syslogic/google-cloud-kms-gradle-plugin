@@ -107,6 +107,7 @@ ERROR: (gcloud.kms.encrypt) NOT_FOUND: CryptoKey projects/PROJECT_ID/locations/g
 It may help to switch the account ID and/or the project ID.
 ````
 gcloud auth login
+gcloud projects list
 gcloud config set project PROJECT_ID
 ````
 One can also list all the available keys of a project.
