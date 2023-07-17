@@ -76,7 +76,7 @@ Properties `ciphertextFiles` and `plaintextFiles` must match; they are being use
 cloudKms {
 
     // Property `kmsKeyPath` is essential.
-    // kmsKeyPath = 'projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING_NAME/cryptoKeys/KEY_NAME'
+    // kmsKeyPath = 'projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY'
     kmsKeyPath = System.getenv('CLOUD_KMS_KEY_PATH')
     
     ciphertextFiles = [
@@ -115,7 +115,7 @@ gcloud config set project PROJECT_ID
 One can also list all the available keys of a project.
 ````
 gcloud kms keyrings list --location=global
-gcloud kms keys list --keyring=projects/PROJECT_ID/locations/global/keyRings/android-gradle
+gcloud kms keys list --keyring=projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING
 ````
 
 ### Support
