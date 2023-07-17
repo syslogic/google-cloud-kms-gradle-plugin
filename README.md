@@ -17,7 +17,7 @@ git clone https://github.com/syslogic/google-cloud-kms-gradle-plugin.git ./build
 
 ### Package Installation
 
-The plugin depends on the common Google Cloud CLI `gcloud` command.
+The plugin depends on the [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) `gcloud` command.
 
 A) The plugin can either be set up in the `buildscript` block of the root project's `build.gradle`:
 ````groovy
@@ -64,6 +64,7 @@ The `CloudKmsExtension` can be configured with the following properties:
 | `String[] ciphertextFiles` |        `[]`        |
 |  `String[] plaintextFiles` |        `[]`        |
 |        `String kmsKeyPath` |       `null`       |
+|                            |                    |
 |       `String kmsLocation` |     `'global'`     |
 |       `String kmsKeystore` | `'android-gradle'` |
 |            `String kmsKey` |    `'default'`     |
@@ -96,7 +97,7 @@ cloudKms {
 }
 ````
 ### Known Issues
- - In case the key-ring cannot be found:
+ - In case the key cannot be found:
 ````
 ERROR: (gcloud.kms.encrypt) NOT_FOUND: CryptoKey projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default not found.``
 ````
@@ -105,6 +106,9 @@ It may help to switch the account ID and/or the project ID.
 ````
 gcloud auth login
 gcloud config set project PROJECT_ID
+````
+One can also list the paths of the available keys.
+````
 gcloud kms keyrings list --location=global
 gcloud kms keys list --keyring=projects/PROJECT_ID/locations/global/keyRings/android-gradle
 ````
