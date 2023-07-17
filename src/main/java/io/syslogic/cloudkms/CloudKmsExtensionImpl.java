@@ -11,22 +11,23 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class CloudKmsExtensionImpl implements CloudKmsExtension {
-    private List<String> ciphertextFiles;
-    private List<String> plaintextFiles;
+
     private String kmsKeyPath = null;
+    private List<String> plaintextFiles;
+    private List<String> ciphertextFiles;
 
     /**
-     * Define the path to the encoded keystore file.
+     * Define the Cloud KMS key path.
      * <br><br>
-     * <code>cloudKms {ciphertextFiles = [""]}</code>
-     * @param value the absolute path to the encoded keystore file.
+     * <code>cloudKms {kmsKeyPath = "global"}</code>
+     * @param value the path of the key.
      */
-    public void setCiphertextFiles(@NotNull List<String> value) {
-        this.ciphertextFiles = value;
+    public void setKmsKeyPath(@NotNull String value) {
+        this.kmsKeyPath = value;
     }
 
     /**
-     * Define the path to the plain-text keystore file.
+     * Define an array of plain-text files.
      * <br><br>
      * <code>cloudKms {plaintextFiles = [""]}</code>
      * @param value the absolute path to the encoded keystore file.
@@ -36,28 +37,30 @@ public class CloudKmsExtensionImpl implements CloudKmsExtension {
     }
 
     /**
-     * Define the Google Cloud KMS key-ring location.
+     * Define an array of cipher-text files.
      * <br><br>
-     * <code>cloudKms {kmsKeyPath = "global"}</code>
-     * @param value the path of the key.
+     * <code>cloudKms {ciphertextFiles = [""]}</code>
+     * @param value the absolute path to the encoded keystore file.
      */
-    public void setKmsKeyPath(@NotNull String value) {
-        this.kmsKeyPath = value;
+    public void setCiphertextFiles(@NotNull List<String> value) {
+        this.ciphertextFiles = value;
     }
 
+    /** @return Cloud KMS key path. */
     @Override
-    public List<String> getCiphertextFiles() {
-        return this.ciphertextFiles;
+    public String getKmsKeyPath() {
+        return this.kmsKeyPath;
     }
 
+    /** @return an array of plain-text filenames. */
     @Override
     public List<String> getPlaintextFiles() {
         return this.plaintextFiles;
     }
 
-    /** @return Google Cloud KMS key-path. */
+    /** @return an array of cipher-text filenames. */
     @Override
-    public String getKmsKeyPath() {
-        return this.kmsKeyPath;
+    public List<String> getCiphertextFiles() {
+        return this.ciphertextFiles;
     }
 }

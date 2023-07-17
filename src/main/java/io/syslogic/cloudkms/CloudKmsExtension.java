@@ -9,11 +9,11 @@ import java.util.List;
 public interface CloudKmsExtension {
 
     /**
-     * Define the path to the cipher-text file.
-     * <code>cloudKms {ciphertextFiles = ["credentials/*.keystore.enc"]}</code>
-     * @return path to the encoded keystore file.
+     * Define the key-path for Cloud KMS.
+     * <code>cloudKms {kmsKeyPath = "projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default"}</code>
+     * @return the fully qualified key-path for Cloud KMS.
      */
-    List<String> getCiphertextFiles();
+    String getKmsKeyPath();
 
     /**
      * Define the path to the plain-text file.
@@ -23,9 +23,9 @@ public interface CloudKmsExtension {
     List<String> getPlaintextFiles();
 
     /**
-     * Define the key-path for Cloud KMS.
-     * <code>cloudKms {kmsKeyPath = "projects/PROJECT_ID/locations/global/keyRings/android-gradle/cryptoKeys/default"}</code>
-     * @return the fully qualified key-path for Cloud KMS.
+     * Define the path to the cipher-text file.
+     * <code>cloudKms {ciphertextFiles = ["credentials/*.keystore.enc"]}</code>
+     * @return path to the encoded keystore file.
      */
-    String getKmsKeyPath();
+    List<String> getCiphertextFiles();
 }

@@ -20,14 +20,15 @@ import io.syslogic.cloudkms.task.CloudKmsEncryptTask;
 class CloudKmsPlugin implements Plugin<Project> {
 
     @Nullable CloudKmsExtension extension;
+    private final @NotNull String taskGroup = "cloudkms";
+    private @Nullable String kmsKeyPath = null;
     private @Nullable List<String> plaintextFiles = List.of(new String[]{});
     private @Nullable List<String> ciphertextFiles = List.of(new String[]{});
-    private @Nullable String kmsKeyPath = null;
 
     void registerTask(@NotNull Project project, String taskName, Class<? extends BaseTask> cls) {
         if (project.getTasks().findByName(taskName) == null) {
             project.getTasks().register(taskName, cls, task -> {
-                task.setGroup("cloudkms");
+                task.setGroup(this.taskGroup);
                 task.getKmsKeyPath().set(this.kmsKeyPath);
                 task.getPlaintextFiles().set(this.plaintextFiles);
                 task.getCiphertextFiles().set(this.ciphertextFiles);
