@@ -66,7 +66,7 @@ The `CloudKmsExtension` can be configured with the following properties:
 |  `String[] plaintextFiles` |        `[]`        |
 |        `String kmsKeyPath` |       `null`       |
 
-### Example
+### Usage Example
 
 Properties `ciphertextFiles` and `plaintextFiles` must match; they are being used for both directions.
 
