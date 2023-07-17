@@ -87,7 +87,7 @@ cloudKms {
             /* 3 */ getRootDir().absolutePath + File.separator + 'credentials/google-service-account.json',
             /* 4 */ getProjectDir().absolutePath + File.separator + 'google-services.json'
     ]
-    
+
     ciphertextFiles = [
             /* 0 */ getRootDir().absolutePath + File.separator + 'credentials/debug.keystore.enc',
             /* 1 */ getRootDir().absolutePath + File.separator + 'credentials/release.keystore.enc',
