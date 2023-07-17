@@ -97,6 +97,11 @@ cloudKms {
     ]
 }
 ````
+### Tasks
+
+ - `:cloudKmsEncrypt` is meant to run locally, in order to encrypt relevant files.
+ - `:cloudKmsDecrypt` is meant to run remotely, in order to decrypt relevant files.
+
 ### Known Issues
  - In case the key cannot be found:
 ````

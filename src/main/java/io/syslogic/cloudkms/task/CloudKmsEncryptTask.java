@@ -8,8 +8,8 @@ import java.nio.file.Files;
 import java.util.List;
 
 /**
- * Abstract Encrypt {@link io.syslogic.cloudkms.task.BaseTask}.
- * Note: This is meant to run locally, in order to encrypt relevant files.
+ * 01 Abstract Encrypt {@link io.syslogic.cloudkms.task.BaseTask}.
+ * `:cloudKmsEncrypt` is meant to run locally, in order to encrypt relevant files.
  * Those *.enc files are save and meant to be checked in to version control.
  *
  * @author Martin Zeitler
