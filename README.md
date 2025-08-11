@@ -10,7 +10,7 @@
 
 ### Development
 
-The plugin source code can be swiftly installed into any Android Gradle project with `git clone`:
+The plugin source code can be swiftly installed into any Gradle project with `git clone`:
 
 ````bash
 git clone https://github.com/syslogic/google-cloud-kms-gradle-plugin.git ./buildSrc
@@ -24,10 +24,10 @@ A) The plugin can either be set up in the `buildscript` block of the root projec
 ````groovy
 buildscript {
     repositories {
-        maven { url 'https://jitpack.io' }
+        maven { url = uri("https://jitpack.io") }
     }
     dependencies {
-        classpath 'io.syslogic:google-cloud-kms-gradle-plugin:1.0.0'
+        classpath "io.syslogic:google-cloud-kms-gradle-plugin:1.0.8"
     }
 }
 ````
@@ -37,7 +37,7 @@ B) Or the repository has to be defined in the root project's `settings.gradle`:
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven { url 'https://jitpack.io' }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 ````
@@ -45,14 +45,14 @@ pluginManagement {
 Then it can be loaded in the `plugins` block of the root project's `build.gradle`:
 ````groovy
 plugins {
-    id 'io.syslogic.cloudkms' version '1.0.0' apply false
+    id("io.syslogic.cloudkms") version("1.0.8") apply false
 }
 ````
 
 C) Finally, it has to be applied in the module's `build.gradle`:
 ````groovy
 plugins {
-    id 'io.syslogic.cloudkms'
+    id("io.syslogic.cloudkms")
 }
 ````
 
@@ -65,7 +65,6 @@ The `CloudKmsExtension` can be configured with the following properties:
 |        `String kmsKeyPath` |       `null`       |
 |  `String[] plaintextFiles` |        `[]`        |
 | `String[] ciphertextFiles` |        `[]`        |
-
 
 
 ### Usage Example

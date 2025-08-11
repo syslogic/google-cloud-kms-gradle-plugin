@@ -1,0 +1,22 @@
+[versions]
+plugin_group      = "io.syslogic"
+plugin_name       = "Google Cloud KMS Plugin"
+plugin_desc       = "It encrypts and decrypts files with Cloud KMS"
+plugin_cls        = "io.syslogic.cloudkms.CloudKmsPlugin"
+plugin_identifier = "google-cloud-kms-gradle-plugin"
+plugin_id         = "io.syslogic.cloudkms"
+github_dev        = "Martin Zeitler"
+github_handle     = "syslogic"
+github_email      = "syslogic@users.noreply.github.com"
+
+plugin_version    = "1.0.8"
+annotations       = "26.0.2"
+junit             = "5.13.4"
+
+[plugins]
+gradle_plugin     = { id = "org.gradle.java-gradle-plugin" }
+maven_publish     = { id = "maven-publish" }
+
+[libraries]
+annotations       = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+junit             = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }

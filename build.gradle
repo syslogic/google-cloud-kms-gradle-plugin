@@ -1,100 +1,123 @@
 // :buildSrc
 buildscript {
     ext {
-        github_handle = 'syslogic'
-        plugin_display_name = 'Google Cloud KMS Plugin'
-        plugin_description = 'It encrypts and decrypts files with Cloud KMS'
-        plugin_identifier = 'google-cloud-kms-gradle-plugin'
-        plugin_class = 'io.syslogic.cloudkms.CloudKmsPlugin'
-        plugin_id = 'io.syslogic.cloudkms'
-        plugin_version = '1.0.8'
+        pluginGroup = buildSrc.versions.plugin.group.get()
+        pluginName = buildSrc.versions.plugin.name.get()
+        pluginDesc = buildSrc.versions.plugin.desc.get()
+        pluginIdentifier = buildSrc.versions.plugin.identifier.get()
+        pluginCls = buildSrc.versions.plugin.cls.get()
+        pluginId = buildSrc.versions.plugin.id.get()
+        pluginVersion = buildSrc.versions.plugin.id.get()
+        githubDev = buildSrc.versions.github.dev.get()
+        githubHandle = buildSrc.versions.github.handle.get()
+        githubEmail = buildSrc.versions.github.email.get()
     }
 }
 
 plugins {
-    id 'org.gradle.java-gradle-plugin'
-    id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '1.2.0'
+    alias(buildSrc.plugins.gradle.plugin)
+    alias(buildSrc.plugins.maven.publish)
 }
 
 dependencies {
-
-    compileOnly gradleApi()
-    implementation 'org.jetbrains:annotations:22.0.0'
-
-    testImplementation gradleTestKit()
-    testImplementation 'org.jetbrains:annotations:22.0.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    compileOnly(gradleApi())
+    implementation(libs.annotations)
+    testImplementation(gradleTestKit())
+    testImplementation(libs.annotations)
+    testImplementation(libs.junit)
     testImplementation(project)
 }
 
 gradlePlugin {
     plugins {
         CloudKmsPlugin {
-            id = "${plugin_id}"
-            displayName = "${plugin_display_name}"
-            description = "${plugin_description}"
-            implementationClass = "${plugin_class}"
+            id = pluginId
+            displayName = pluginName
+            description = pluginDesc
+            implementationClass = pluginCls
         }
     }
-}
-
-tasks.withType(Jar).configureEach {
-    archiveBaseName.set(plugin_identifier)
-    archiveVersion.set("${plugin_version}")
 }
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
 
-tasks.register('javadocs', Javadoc) {
-    title = "${plugin_display_name} API"
+tasks.withType(Jar).configureEach {
+    archiveBaseName.set("${pluginIdentifier}-${pluginVersion}")
+    archiveVersion.set("${pluginVersion}")
+}
+
+tasks.register("javadocs", Javadoc) {
+    title = "${pluginName} API"
     source = java.sourceSets.main.java.srcDirs
-    destinationDir = file("${project.buildDir}/outputs/javadoc/")
-    configurations.implementation.setCanBeResolved(true)
-    classpath = files(new File(System.getProperty('java.home') + File.separator + 'lib' + File.separator + 'rt.jar'))
-    classpath += configurations.implementation
+    destinationDir = project.file("/build/outputs/javadoc")
+    classpath = files(new File(System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar"))
+    classpath += configurations.runtimeClasspath
     options.links "https://docs.oracle.com/en/java/javase/17/docs/api/"
     options.linkSource true
     options.author true
     failOnError false
 }
 
-tasks.register('javadocJar', Jar) {
+tasks.register("javadocJar", Jar) {
+    archiveClassifier.set("javadoc")
+    from(javadoc.destinationDir)
     dependsOn javadoc
-    archiveClassifier.set('javadoc')
-    from javadoc.destinationDir
 }
 
-tasks.register('sourcesJar', Jar) {
+tasks.register("sourcesJar", Jar) {
     from java.sourceSets.main.java.srcDirs
-    archiveClassifier.set('sources')
+    archiveClassifier.set("sources")
 }
 
-group = 'io.syslogic'
-version = "${plugin_version}"
+group = pluginGroup
+version = pluginVersion
+
 artifacts {
-    archives javadocJar
-    archives sourcesJar
+    archives(javadocJar)
+    archives(sourcesJar)
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                groupId = group
-                artifactId = "${plugin_identifier}"
-                from components.getByName("java")
-                version = "${plugin_version}"
-                pom {
-                    name = "${plugin_display_name}"
-                    description = "${plugin_description}"
-                    url = "https://github.com/${github_handle}/${plugin_identifier}"
-                    scm {
-                        connection = "scm:git:git://github.com/${github_handle}/${plugin_identifier}.git"
-                        developerConnection = "scm:git:ssh://github.com/${github_handle}/${plugin_identifier}.git"
-                        url = "https://github.com/${github_handle}/${plugin_identifier}/"
+publishing {
+    repositories {
+        if (System.getenv("GITHUB_ACTOR") != null && System.getenv("GITHUB_TOKEN") != null) {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/${githubHandle}/${pluginIdentifier}")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+    }
+    publications {
+        release(MavenPublication) {
+            from(components.getByName("java"))
+            groupId = pluginGroup
+            artifactId = pluginIdentifier
+            version = pluginVersion
+            pom {
+                name = pluginName
+                description = pluginDesc
+                url = "https://github.com/${githubHandle}/${pluginIdentifier}"
+                scm {
+                    connection = "scm:git:git://github.com/${githubHandle}/${pluginIdentifier}.git"
+                    developerConnection = "scm:git:ssh://github.com/${githubHandle}/${pluginIdentifier}.git"
+                    url = "https://github.com/${githubHandle}/${pluginIdentifier}/"
+                }
+                developers {
+                    developer {
+                        name = githubDev
+                        id = githubHandle
+                        email = githubEmail
+                    }
+                }
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "http://www.opensource.org/licenses/mit-license.php"
                     }
                 }
             }

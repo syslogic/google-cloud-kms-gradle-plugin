@@ -48,7 +48,7 @@ jobs:
           wget
           https://corretto.aws/downloads/latest/amazon-corretto-17-x64-linux-jdk.tar.gz
 
-      - name: ☕ Set up JDK 17
+      - name: ☕ Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: jdkfile
@@ -78,7 +78,7 @@ jobs:
 
       - name: 📦 Retain Artifact (JAR)
         id: retain-plugin-jar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: buildSrc
           path: ./build/libs/*.jar

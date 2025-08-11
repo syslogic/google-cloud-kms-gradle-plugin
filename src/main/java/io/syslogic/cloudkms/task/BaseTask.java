@@ -78,6 +78,7 @@ abstract public class BaseTask extends DefaultTask {
      * @return the process input-stream.
      */
     @NotNull
+    @SuppressWarnings("NewApi")
     protected String execute(String command) {
         String cmd;
         String gcloud = this.getCloudCli();
