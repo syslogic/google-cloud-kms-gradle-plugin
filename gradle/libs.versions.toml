@@ -10,8 +10,8 @@ github_handle     = "syslogic"
 github_email      = "syslogic@users.noreply.github.com"
 
 plugin_version    = "1.0.8"
-annotations       = "26.0.2"
-junit             = "5.13.4"
+annotations       = "26.1.0"
+junit             = "6.0.3"
 
 [plugins]
 gradle_plugin     = { id = "org.gradle.java-gradle-plugin" }
